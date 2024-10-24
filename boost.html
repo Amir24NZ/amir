@@ -29,6 +29,19 @@
             cursor: pointer;
             font-size: 16px;
             color: black;
+            margin-top: 20px; /* فاصله از دکمه برگشت */
+        }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 15px;
+            background-color: #FF4500; /* رنگ نارنجی */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+            font-size: 16px;
         }
         .message {
             margin-top: 20px;
@@ -37,6 +50,7 @@
     </style>
 </head>
 <body>
+    <button class="back-button" onclick="goBack()">برگشت</button> <!-- دکمه برگشت -->
     <div class="score">کلوخ‌های شما: <span id="score">0</span></div>
     <button class="boost-button" onclick="buyBoost()">خرید بوست (300 کلوخ)</button>
     <div class="message" id="message"></div>
@@ -63,6 +77,10 @@
             } else {
                 document.getElementById("message").textContent = "شما به اندازه کافی کلوخ ندارید!";
             }
+        }
+
+        function goBack() {
+            window.history.back(); // برگرداندن به صفحه قبلی
         }
     </script>
 </body>
