@@ -34,6 +34,7 @@
             width: 100%;
             max-width: 400px;
             margin-top: 50px;
+            position: relative;
         }
         .coin {
             width: 60vw;
@@ -56,10 +57,24 @@
             position: relative;
         }
         .coin img {
-            width: 100%;
-            height: 100%;
+            width: 80%; /* تصویر کوچکتر */
+            height: 80%;
             border-radius: 50%;
             pointer-events: none;
+        }
+        .plus-one {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: yellow;
+            font-size: 24px;
+            opacity: 0;
+            transition: opacity 1s ease, transform 1s ease;
+        }
+        .show-plus-one {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-20px);
         }
         .version {
             position: absolute;
@@ -83,6 +98,7 @@
     <div class="score">کلوخ‌های شما: <span id="score">0</span></div>
 
     <div class="coin-container">
+        <div class="plus-one" id="plusOne">+1</div> <!-- اضافه کردن +1 -->
         <button class="coin" onclick="increaseScore()" aria-label="کلیک کنید تا امتیاز بگیرید">
             <img src="https://amir24nz.github.io/kolookh/images/kolookh.png" alt="coin">
         </button>
@@ -104,6 +120,15 @@
             score++;
             document.getElementById("score").textContent = score;
             localStorage.setItem("score", score);
+
+            // نمایش +1 با انیمیشن
+            const plusOne = document.getElementById("plusOne");
+            plusOne.classList.add("show-plus-one");
+
+            // پس از یک ثانیه مخفی کردن +1
+            setTimeout(() => {
+                plusOne.classList.remove("show-plus-one");
+            }, 1000);
         }
     </script>
 </body>
