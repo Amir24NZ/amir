@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوست</title>
+    <title>بازی کلوخ</title>
     <style>
         body {
-            background-color: #8B4513;
+            background-color: #8B4513; /* رنگ قهوه‌ای برای پس‌زمینه */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -18,8 +18,45 @@
             text-align: center;
         }
         .score {
-            font-size: 24px;
+            font-size: 24px; /* اندازه فونت پیش‌فرض */
+            position: absolute;
+            top: 10px; /* قرار دادن متن در بالا */
+            width: 100%; /* متن در مرکز */
+            text-align: center; /* تنظیم تراز وسط */
+        }
+        .coin-container {
+            width: 100%;
+            max-width: 400px;
+            margin-top: 50px; /* فاصله از بالا تا دکمه */
+        }
+        .coin {
+            width: 70vw; /* بزرگ‌تر کردن سکه */
+            height: 70vw;
+            max-width: 240px; /* حداکثر اندازه بزرگ‌تر */
+            max-height: 240px;
+            background-color: #800000; /* رنگ جگری */
+            border-radius: 50%;
+            cursor: pointer;
             margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            outline: none; /* Removes the default focus outline */
+            -webkit-tap-highlight-color: transparent; /* Prevents mobile tap highlight */
+        }
+        .coin img {
+            width: 70%; /* تصویر را تمام عرض سکه کنید */
+            height: auto; /* حفظ نسبت ابعاد */
+            border-radius: 50%;
+        }
+        .version {
+            position: absolute;
+            bottom: 10px; /* قرار دادن متن در پایین */
+            width: 100%;
+            text-align: center;
+            font-size: 14px; /* اندازه فونت کوچک‌تر برای نسخه */
         }
         .boost-button {
             padding: 10px 20px;
@@ -29,52 +66,39 @@
             cursor: pointer;
             font-size: 16px;
             color: black;
-            margin-top: 20px; /* فاصله از دکمه برگشت */
+            margin-top: 20px; /* فاصله از دکمه */
         }
-        .back-button {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            padding: 10px 15px;
-            background-color: #FF4500; /* رنگ نارنجی */
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            color: white;
-            font-size: 16px;
-        }
-        .message {
-            margin-top: 20px;
-            font-size: 16px;
+        /* تنظیمات برای موبایل با استفاده از Media Query */
+        @media (max-width: 600px) {
+            .score {
+                font-size: 6vw; /* فونت بر اساس عرض صفحه */
+            }
+            .version {
+                font-size: 3.5vw; /* فونت کوچک‌تر برای نسخه در موبایل */
+            }
         }
     </style>
-    <script>
-        // جلوگیری از کش شدن فایل‌های استاتیک
-        (function() {
-            let version = new Date().getTime();
-            document.querySelectorAll('link, script').forEach(function(tag) {
-                if (tag.href) {
-                    tag.href += "?v=" + version;
-                }
-                if (tag.src) {
-                    tag.src += "?v=" + version;
-                }
-            });
-        })();
-    </script>
 </head>
 <body>
-    <button class="back-button" onclick="goBack()">برگشت</button> <!-- دکمه برگشت -->
     <div class="score">کلوخ‌های شما: <span id="score">0</span></div>
-    <button class="boost-button" onclick="buyBoost()">خرید بوست (لول <span id="boostLevel">1</span>)</button>
-    <div class="message" id="message"></div>
+
+    <div class="coin-container">
+        <button class="coin" onclick="increaseScore()" aria-label="کلیک کنید تا امتیاز بگیرید">
+            <img src="https://amir24nz.github.io/kolookh/images/kolookh.png" alt="coin">
+        </button>
+    </div>
+
+    <button class="boost-button" onclick="window.location.href='boost.html'">بوست</button> <!-- دکمه بوست -->
+
+    <div class="version">نسخه 1.0</div> <!-- اضافه کردن نسخه به پایین -->
 
     <script>
         let score = 0;
         let boostLevel = 1; // سطح بوست
         const boostPrices = [300, 500, 800, 1200, 2000, 2500, 3300]; // قیمت‌های بوست
-        const clickValues = [2, 3, 4, 5, 6, 7, 8]; // مقدار کلیک‌های بوست
+        const clickValues = [1, 2, 3, 4, 5, 6, 7, 8]; // مقدار کلیک‌های بوست
 
+        // دریافت امتیاز از Local Storage در زمان بارگذاری صفحه
         window.onload = function() {
             if (localStorage.getItem("score")) {
                 score = parseInt(localStorage.getItem("score"));
@@ -82,30 +106,23 @@
             }
             if (localStorage.getItem("boostLevel")) {
                 boostLevel = parseInt(localStorage.getItem("boostLevel"));
-                document.getElementById("boostLevel").textContent = boostLevel;
             }
         }
 
-        function buyBoost() {
-            const currentPrice = boostPrices[boostLevel - 1]; // قیمت فعلی
-            if (score >= currentPrice && boostLevel <= boostPrices.length) {
-                score -= currentPrice; // کسر سکه
-                localStorage.setItem("score", score);
-                document.getElementById("score").textContent = score;
-                boostLevel++; // افزایش سطح
-                localStorage.setItem("boostLevel", boostLevel);
-                document.getElementById("boostLevel").textContent = boostLevel;
-                alert("بوست لول " + (boostLevel - 1) + " فعال شد! هر کلیک به " + clickValues[boostLevel - 2] + " کلوخ افزایش می‌یابد.");
-            } else if (boostLevel > boostPrices.length) {
-                document.getElementById("message").textContent = "شما به حداکثر سطح بوست رسیده‌اید!";
-            } else {
-                document.getElementById("message").textContent = "شما به اندازه کافی کلوخ ندارید!";
-            }
+        // افزایش امتیاز و ذخیره آن در Local Storage
+        function increaseScore() {
+            score += clickValues[boostLevel - 1]; // با توجه به سطح بوست امتیاز بگیرید
+            document.getElementById("score").textContent = score;
+            localStorage.setItem("score", score); // ذخیره امتیاز در Local Storage
         }
 
-        function goBack() {
-            window.history.back(); // برگرداندن به صفحه قبلی
-        }
+        // جلوگیری از کش شدن فایل‌های استاتیک
+        (function() {
+            let version = new Date().getTime();
+            document.querySelectorAll('img').forEach(function(img) {
+                img.src = img.src + "?v=" + version;
+            });
+        })();
     </script>
 </body>
 </html>
