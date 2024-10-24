@@ -45,26 +45,6 @@
         }
     </style>
     <script>
-        // جلوگیری از کش شدن فایل‌های استاتیک
-        const version = "1.0"; // نسخه فعلی
-        const savedVersion = localStorage.getItem("appVersion"); // نسخه ذخیره شده در Local Storage
-
-        // بررسی نسخه و به‌روزرسانی در صورت لزوم
-        if (savedVersion !== version) {
-            localStorage.setItem("appVersion", version); // ذخیره نسخه فعلی
-            localStorage.removeItem("score"); // حذف امتیاز ذخیره شده در صورت به‌روزرسانی
-            localStorage.removeItem("boostLevel"); // حذف سطح بوست در صورت به‌روزرسانی
-            alert("نسخه جدید بارگذاری شد!"); // اطلاع رسانی به کاربر
-            window.location.reload(); // بارگذاری مجدد صفحه
-        }
-
-        // بارگذاری مجدد صفحه با یک پارامتر تصادفی
-        window.onload = function() {
-            const uniqueParam = new Date().getTime(); // پارامتر تصادفی بر اساس زمان فعلی
-            const currentURL = window.location.href.split('?')[0]; // حذف پارامترهای موجود
-            window.location.href = `${currentURL}?v=${uniqueParam}`; // بارگذاری URL جدید
-        };
-
         let score = parseInt(localStorage.getItem("score")) || 0; // دریافت امتیاز از Local Storage
 
         function updateDisplay() {
@@ -76,6 +56,10 @@
             localStorage.setItem("score", score); // ذخیره امتیاز در Local Storage
             updateDisplay();
         }
+
+        window.onload = function() {
+            updateDisplay(); // بروزرسانی نمایش امتیاز
+        };
     </script>
 </head>
 <body>
