@@ -50,49 +50,54 @@
     </style>
     <script>
         // جلوگیری از کش شدن فایل‌های استاتیک
-        const version = new Date().getTime();
+        const version = "1.0"; // نسخه فعلی
+        const savedVersion = localStorage.getItem("appVersion"); // نسخه ذخیره شده در Local Storage
+        
+        // بررسی نسخه و به‌روزرسانی در صورت لزوم
+        if (savedVersion !== version) {
+            localStorage.setItem("appVersion", version); // ذخیره نسخه فعلی
+            localStorage.removeItem("score"); // حذف امتیاز ذخیره شده در صورت به‌روزرسانی
+            localStorage.removeItem("boostLevel"); // حذف سطح بوست در صورت به‌روزرسانی
+            alert("نسخه جدید بارگذاری شد!"); // اطلاع رسانی به کاربر
+            window.location.reload(); // بارگذاری مجدد صفحه
+        }
+
         document.querySelectorAll('link, script').forEach(function(tag) {
             if (tag.href) {
-                tag.href += "?v=" + version;
-            }
-            if (tag.src) {
-                tag.src += "?v=" + version;
+                tag.href += "?v=" + new Date().getTime(); // جلوگیری از کش شدن فایل‌ها
             }
         });
-    </script>
-</head>
-<body>
-    <button class="back-button" onclick="goBack()">برگشت</button> <!-- دکمه برگشت -->
-    <div class="score">کلوخ‌های شما: <span id="score">0</span></div>
-    <button class="boost-button" onclick="buyBoost()">خرید بوست (لول <span id="boostLevel">1</span>)</button>
-    <div class="message" id="message"></div>
 
-    <script>
-        let score = 0;
         let boostLevel = 1; // سطح بوست
         const boostPrices = [300, 500, 800, 1200, 2000, 2500, 3300]; // قیمت‌های بوست
         const clickValues = [2, 3, 4, 5, 6, 7, 8]; // مقدار کلیک‌های بوست
-
+        let score = parseInt(localStorage.getItem("score")) || 0; // دریافت امتیاز از Local Storage
+        
         window.onload = function() {
-            if (localStorage.getItem("score")) {
-                score = parseInt(localStorage.getItem("score"));
-                document.getElementById("score").textContent = score;
+            updateDisplay();
+        };
+
+        function updateDisplay() {
+            document.getElementById("score").textContent = "کلوخ‌های شما: " + score;
+            document.getElementById("boostLevel").textContent = "سطح بوست: " + boostLevel;
+            document.getElementById("boostPrice").textContent = "قیمت: " + boostPrices[boostLevel - 1] + " سکه";
+            if (boostLevel >= boostPrices.length) {
+                document.getElementById("boostButton").disabled = true; // غیرفعال کردن دکمه در صورت حداکثر سطح
+                document.getElementById("boostButton").textContent = "حداکثر سطح بوست رسیده‌اید!";
             }
-            if (localStorage.getItem("boostLevel")) {
-                boostLevel = parseInt(localStorage.getItem("boostLevel"));
-                document.getElementById("boostLevel").textContent = boostLevel;
+            if (localStorage.getItem("boostActive") === "true") {
+                document.getElementById("message").textContent = "بوست فعال شده!";
             }
         }
 
         function buyBoost() {
-            const currentPrice = boostPrices[boostLevel - 1]; // قیمت فعلی
-            if (score >= currentPrice && boostLevel <= boostPrices.length) {
-                score -= currentPrice; // کسر سکه
-                localStorage.setItem("score", score);
-                document.getElementById("score").textContent = score;
-                boostLevel++;
-                document.getElementById("boostLevel").textContent = boostLevel; // به‌روزرسانی لول بوست
-                localStorage.setItem("boostLevel", boostLevel); // ذخیره لول بوست
+            if (score >= boostPrices[boostLevel - 1] && boostLevel <= boostPrices.length) {
+                score -= boostPrices[boostLevel - 1]; // کم کردن سکه
+                boostLevel++; // افزایش سطح بوست
+                localStorage.setItem("score", score); // ذخیره امتیاز در Local Storage
+                localStorage.setItem("boostLevel", boostLevel); // ذخیره سطح بوست
+                localStorage.setItem("boostActive", "true"); // فعال کردن بوست
+                updateDisplay();
                 document.getElementById("message").textContent = "بوست با موفقیت خریداری شد!";
             } else {
                 document.getElementById("message").textContent = "سکه کافی نیست یا حداکثر سطح بوست رسیده‌اید!";
@@ -103,5 +108,15 @@
             window.history.back(); // برگرداندن به صفحه قبلی
         }
     </script>
+</head>
+<body>
+    <button class="back-button" onclick="goBack()">بازگشت</button> <!-- دکمه برگشت -->
+
+    <div class="score" id="score">کلوخ‌های شما: 0</div>
+    <div id="boostLevel">سطح بوست: 1</div>
+    <div id="boostPrice">قیمت: 300 سکه</div>
+    
+    <button class="boost-button" id="boostButton" onclick="buyBoost()">خرید بوست</button> <!-- دکمه خرید بوست -->
+    <div class="message" id="message"></div> <!-- نمایش پیام خرید -->
 </body>
 </html>
