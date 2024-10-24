@@ -16,7 +16,7 @@
             font-family: sans-serif;
             color: white;
             text-align: center;
-            position: relative; /* اضافه کردن position relative به body */
+            position: relative;
             user-select: none;
             -webkit-user-select: none;
             -moz-user-select: none;
@@ -69,27 +69,6 @@
             font-size: 14px;
         }
 
-        /* انیمیشن برای +1 */
-        .plus-one {
-            position: absolute;
-            font-size: 24px;
-            color: yellow;
-            animation: moveUpFadeOut 1s ease forwards;
-            pointer-events: none; /* جلوگیری از تداخل کلیک */
-        }
-
-        /* انیمیشن حرکت به سمت بالا و محو شدن */
-        @keyframes moveUpFadeOut {
-            0% {
-                transform: translateY(0);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-        }
-
         @media (max-width: 600px) {
             .score {
                 font-size: 6vw;
@@ -104,7 +83,7 @@
     <div class="score">کلوخ‌های شما: <span id="score">0</span></div>
 
     <div class="coin-container">
-        <button class="coin" onclick="increaseScore(event)" aria-label="کلیک کنید تا امتیاز بگیرید">
+        <button class="coin" onclick="increaseScore()" aria-label="کلیک کنید تا امتیاز بگیرید">
             <img src="https://amir24nz.github.io/kolookh/images/kolookh.png" alt="coin">
         </button>
     </div>
@@ -121,35 +100,10 @@
             }
         }
 
-        // تابع برای افزایش امتیاز
-        function increaseScore(event) {
+        function increaseScore() {
             score++;
             document.getElementById("score").textContent = score;
             localStorage.setItem("score", score);
-
-            // ایجاد انیمیشن +1 در نقطه‌ای که کلیک شده
-            showPlusOne(event);
-        }
-
-        // ایجاد انیمیشن +1
-        function showPlusOne(event) {
-            const plusOne = document.createElement('div');
-            plusOne.classList.add('plus-one');
-            plusOne.textContent = '+1';
-
-            // تنظیم موقعیت انیمیشن بر اساس مکان کلیک
-            const x = event.clientX;
-            const y = event.clientY;
-            plusOne.style.left = `${x - 10}px`;  // تنظیم عرض برای هماهنگی با متن
-            plusOne.style.top = `${y - 20}px`;  // تنظیم ارتفاع برای بالا بردن متن
-
-            // اضافه کردن انیمیشن به body
-            document.body.appendChild(plusOne);
-
-            // حذف کردن +1 بعد از انیمیشن
-            setTimeout(() => {
-                plusOne.remove();
-            }, 1000); // مدت زمان انیمیشن
         }
     </script>
 </body>
