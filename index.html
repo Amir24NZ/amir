@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بازی کلوخ</title>
+    <style>
+        body {
+            background-color: #8B4513; /* رنگ قهوه‌ای برای پس‌زمینه */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            font-family: sans-serif;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+        .score {
+            font-size: 24px; /* اندازه فونت پیش‌فرض */
+            position: absolute;
+            top: 10px; /* قرار دادن متن در بالا */
+            width: 100%; /* متن در مرکز */
+            text-align: center; /* تنظیم تراز وسط */
+        }
+        .coin-container {
+            width: 100%;
+            max-width: 400px;
+            margin-top: 50px; /* فاصله از بالا تا دکمه */
+        }
+        .coin {
+            width: 60vw; /* بزرگ‌تر کردن سکه */
+            height: 60vw;
+            max-width: 240px; /* حداکثر اندازه بزرگ‌تر */
+            max-height: 240px;
+            background-color: #800000; /* رنگ جگری */
+            border-radius: 50%;
+            cursor: pointer;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .coin img {
+            width: 100%; /* تصویر را تمام عرض سکه کنید */
+            height: 100%;
+            border-radius: 50%;
+        }
+        .version {
+            position: absolute;
+            bottom: 10px; /* قرار دادن متن در پایین */
+            width: 100%;
+            text-align: center;
+            font-size: 14px; /* اندازه فونت کوچک‌تر برای نسخه */
+        }
+
+        /* تنظیمات برای موبایل با استفاده از Media Query */
+        @media (max-width: 600px) {
+            .score {
+                font-size: 6vw; /* فونت بر اساس عرض صفحه */
+            }
+            .version {
+                font-size: 3.5vw; /* فونت کوچک‌تر برای نسخه در موبایل */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="score">کلوخ‌های شما: <span id="score">0</span></div>
+
+    <div class="coin-container">
+        <div class="coin" onclick="increaseScore()">
+            <img src="images/kolookh.png" alt="coin"> <!-- تصویر داخل سکه -->
+        </div>
+    </div>
+
+    <div class="version">نسخه 1.0</div> <!-- اضافه کردن نسخه به پایین -->
+
+    <script>
+        let score = 0;
+
+        // دریافت امتیاز از Local Storage در زمان بارگذاری صفحه
+        window.onload = function() {
+            if (localStorage.getItem("score")) {
+                score = parseInt(localStorage.getItem("score"));
+                document.getElementById("score").textContent = score;
+            }
+        }
+
+        // افزایش امتیاز و ذخیره آن در Local Storage
+        function increaseScore() {
+            score++;
+            document.getElementById("score").textContent = score;
+            localStorage.setItem("score", score); // ذخیره امتیاز در Local Storage
+        }
+
+        // جلوگیری از کش شدن فایل‌های استاتیک
+        (function() {
+            let version = new Date().getTime();
+            document.querySelectorAll('img').forEach(function(img) {
+                img.src = img.src + "?v=" + version;
+            });
+        })();
+    </script>
+</body>
+</html>
