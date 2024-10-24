@@ -111,6 +111,9 @@
                 score = parseInt(localStorage.getItem("score"));
                 document.getElementById("score").textContent = score;
             }
+            if (localStorage.getItem("clickValue")) {
+                clickValue = parseInt(localStorage.getItem("clickValue")); // بارگذاری مقدار کلیک
+            }
         }
 
         function increaseScore() {
