@@ -17,28 +17,30 @@
             color: white;
             text-align: center;
             position: relative;
-            user-select: none; /* غیرفعال کردن انتخاب متن */
-            -webkit-tap-highlight-color: transparent; /* حذف افکت کلیک */
-            touch-action: manipulation; /* جلوگیری از افکت‌های پیش‌فرض لمس */
+            user-select: none; /* غیرفعال کردن انتخاب برای کل صفحه */
+            -webkit-user-select: none; /* غیرفعال کردن انتخاب در مرورگرهای وب‌کیت */
+            -moz-user-select: none; /* غیرفعال کردن انتخاب در مرورگرهای موزیلا */
+            -ms-user-select: none; /* غیرفعال کردن انتخاب در مرورگرهای اینترنت اکسپلورر */
+            -webkit-tap-highlight-color: transparent; /* حذف افکت کلیک در موبایل */
         }
         .score {
-            font-size: 24px; /* اندازه فونت پیش‌فرض */
+            font-size: 24px;
             position: absolute;
-            top: 10px; /* قرار دادن متن در بالا */
-            width: 100%; /* متن در مرکز */
-            text-align: center; /* تنظیم تراز وسط */
+            top: 10px;
+            width: 100%;
+            text-align: center;
         }
         .coin-container {
             width: 100%;
             max-width: 400px;
-            margin-top: 50px; /* فاصله از بالا تا دکمه */
+            margin-top: 50px;
         }
         .coin {
-            width: 60vw; /* بزرگ‌تر کردن سکه */
+            width: 60vw;
             height: 60vw;
-            max-width: 240px; /* حداکثر اندازه بزرگ‌تر */
+            max-width: 240px;
             max-height: 240px;
-            background-color: #800000; /* رنگ جگری */
+            background-color: #800000;
             border-radius: 50%;
             cursor: pointer;
             margin-bottom: 20px;
@@ -47,32 +49,30 @@
             align-items: center;
             margin-left: auto;
             margin-right: auto;
-            user-select: none; /* غیرفعال کردن انتخاب برای سکه */
-            outline: none; /* حذف حالت انتخاب کلیک */
-            border: none; /* حذف حاشیه دکمه */
-            padding: 0; /* حذف فاصله داخلی دکمه */
+            outline: none;
+            border: none;
+            padding: 0;
         }
         .coin img {
-            width: 100%; /* تصویر را تمام عرض سکه کنید */
+            width: 100%;
             height: 100%;
             border-radius: 50%;
-            pointer-events: none; /* غیرفعال کردن رویدادهای کلیک برای تصویر */
+            pointer-events: none;
         }
         .version {
             position: absolute;
-            bottom: 10px; /* قرار دادن متن در پایین */
+            bottom: 10px;
             width: 100%;
             text-align: center;
-            font-size: 14px; /* اندازه فونت کوچک‌تر برای نسخه */
+            font-size: 14px;
         }
 
-        /* تنظیمات برای موبایل با استفاده از Media Query */
         @media (max-width: 600px) {
             .score {
-                font-size: 6vw; /* فونت بر اساس عرض صفحه */
+                font-size: 6vw;
             }
             .version {
-                font-size: 3.5vw; /* فونت کوچک‌تر برای نسخه در موبایل */
+                font-size: 3.5vw;
             }
         }
     </style>
@@ -86,12 +86,11 @@
         </button>
     </div>
 
-    <div class="version">نسخه 1.0</div> <!-- اضافه کردن نسخه به پایین -->
+    <div class="version">نسخه 1.0</div>
 
     <script>
         let score = 0;
 
-        // دریافت امتیاز از Local Storage در زمان بارگذاری صفحه
         window.onload = function() {
             if (localStorage.getItem("score")) {
                 score = parseInt(localStorage.getItem("score"));
@@ -99,14 +98,12 @@
             }
         }
 
-        // افزایش امتیاز و ذخیره آن در Local Storage
         function increaseScore() {
             score++;
             document.getElementById("score").textContent = score;
-            localStorage.setItem("score", score); // ذخیره امتیاز در Local Storage
+            localStorage.setItem("score", score);
         }
 
-        // جلوگیری از کش شدن فایل‌های استاتیک
         (function() {
             let version = new Date().getTime();
             document.querySelectorAll('img').forEach(function(img) {
