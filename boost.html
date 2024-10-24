@@ -50,17 +50,15 @@
     </style>
     <script>
         // جلوگیری از کش شدن فایل‌های استاتیک
-        (function() {
-            let version = new Date().getTime();
-            document.querySelectorAll('link, script').forEach(function(tag) {
-                if (tag.href) {
-                    tag.href += "?v=" + version;
-                }
-                if (tag.src) {
-                    tag.src += "?v=" + version;
-                }
-            });
-        })();
+        const version = new Date().getTime();
+        document.querySelectorAll('link, script').forEach(function(tag) {
+            if (tag.href) {
+                tag.href += "?v=" + version;
+            }
+            if (tag.src) {
+                tag.src += "?v=" + version;
+            }
+        });
     </script>
 </head>
 <body>
