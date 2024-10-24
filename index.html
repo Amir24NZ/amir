@@ -19,6 +19,7 @@
             position: relative;
             user-select: none; /* غیرفعال کردن انتخاب متن */
             -webkit-tap-highlight-color: transparent; /* حذف افکت کلیک */
+            touch-action: manipulation; /* جلوگیری از افکت‌های پیش‌فرض لمس */
         }
         .score {
             font-size: 24px; /* اندازه فونت پیش‌فرض */
@@ -48,6 +49,8 @@
             margin-right: auto;
             user-select: none; /* غیرفعال کردن انتخاب برای سکه */
             -webkit-tap-highlight-color: transparent; /* حذف افکت کلیک برای سکه */
+            touch-action: manipulation; /* جلوگیری از افکت‌های پیش‌فرض لمس */
+            outline: none; /* حذف حالت انتخاب کلیک */
         }
         .coin img {
             width: 100%; /* تصویر را تمام عرض سکه کنید */
