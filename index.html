@@ -98,6 +98,12 @@
         const boostPrices = [300, 500, 800, 1200, 2000, 2500, 3300]; // قیمت‌های بوست
         const clickValues = [1, 2, 3, 4, 5, 6, 7, 8]; // مقدار کلیک‌های بوست
 
+        // جلوگیری از کش شدن فایل‌های استاتیک
+        const version = new Date().getTime();
+        document.querySelectorAll('img').forEach(function(img) {
+            img.src += "?v=" + version;
+        });
+        
         // دریافت امتیاز از Local Storage در زمان بارگذاری صفحه
         window.onload = function() {
             if (localStorage.getItem("score")) {
@@ -115,14 +121,6 @@
             document.getElementById("score").textContent = score;
             localStorage.setItem("score", score); // ذخیره امتیاز در Local Storage
         }
-
-        // جلوگیری از کش شدن فایل‌های استاتیک
-        (function() {
-            let version = new Date().getTime();
-            document.querySelectorAll('img').forEach(function(img) {
-                img.src = img.src + "?v=" + version;
-            });
-        })();
     </script>
 </body>
 </html>
