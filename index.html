@@ -16,7 +16,7 @@
             font-family: sans-serif;
             color: white;
             text-align: center;
-            position: relative;
+            position: relative; /* اضافه کردن position relative به body */
             user-select: none;
             -webkit-user-select: none;
             -moz-user-select: none;
@@ -75,6 +75,7 @@
             font-size: 24px;
             color: yellow;
             animation: moveUpFadeOut 1s ease forwards;
+            pointer-events: none; /* جلوگیری از تداخل کلیک */
         }
 
         /* انیمیشن حرکت به سمت بالا و محو شدن */
@@ -139,8 +140,8 @@
             // تنظیم موقعیت انیمیشن بر اساس مکان کلیک
             const x = event.clientX;
             const y = event.clientY;
-            plusOne.style.left = `${x}px`;
-            plusOne.style.top = `${y}px`;
+            plusOne.style.left = `${x - 10}px`;  // تنظیم عرض برای هماهنگی با متن
+            plusOne.style.top = `${y - 20}px`;  // تنظیم ارتفاع برای بالا بردن متن
 
             // اضافه کردن انیمیشن به body
             document.body.appendChild(plusOne);
