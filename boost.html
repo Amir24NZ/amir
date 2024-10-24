@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوست</title>
+    <style>
+        body {
+            background-color: #8B4513;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            font-family: sans-serif;
+            color: white;
+            text-align: center;
+        }
+        .score {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .boost-button {
+            padding: 10px 20px;
+            background-color: #FFD700; /* رنگ طلایی */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            color: black;
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="score">کلوخ‌های شما: <span id="score">0</span></div>
+    <button class="boost-button" onclick="buyBoost()">خرید بوست (300 کلوخ)</button>
+    <div class="message" id="message"></div>
+
+    <script>
+        let score = 0;
+
+        window.onload = function() {
+            if (localStorage.getItem("score")) {
+                score = parseInt(localStorage.getItem("score"));
+                document.getElementById("score").textContent = score;
+            }
+        }
+
+        function buyBoost() {
+            if (score >= 300) {
+                score -= 300; // کسر سکه
+                localStorage.setItem("score", score);
+                document.getElementById("score").textContent = score;
+                alert("بوست فعال شد! هر کلیک به 2 کلوخ افزایش می‌یابد.");
+                localStorage.setItem("clickValue", 2); // به‌روزرسانی مقدار کلیک
+                window.history.back(); // بازگشت به صفحه اصلی
+            } else {
+                document.getElementById("message").textContent = "شما به اندازه کافی کلوخ ندارید!";
+            }
+        }
+    </script>
+</body>
+</html>
