@@ -48,15 +48,15 @@
             margin-left: auto;
             margin-right: auto;
             user-select: none; /* غیرفعال کردن انتخاب برای سکه */
-            -webkit-tap-highlight-color: transparent; /* حذف افکت کلیک برای سکه */
-            touch-action: manipulation; /* جلوگیری از افکت‌های پیش‌فرض لمس */
             outline: none; /* حذف حالت انتخاب کلیک */
+            border: none; /* حذف حاشیه دکمه */
+            padding: 0; /* حذف فاصله داخلی دکمه */
         }
         .coin img {
             width: 100%; /* تصویر را تمام عرض سکه کنید */
             height: 100%;
             border-radius: 50%;
-            pointer-events: none; /* غیرفعال کردن تمام رویدادهای کلیک و لمس */
+            pointer-events: none; /* غیرفعال کردن رویدادهای کلیک برای تصویر */
         }
         .version {
             position: absolute;
@@ -81,9 +81,9 @@
     <div class="score">کلوخ‌های شما: <span id="score">0</span></div>
 
     <div class="coin-container">
-        <div class="coin" onclick="increaseScore()">
+        <button class="coin" onclick="increaseScore()">
             <img src="https://amir24nz.github.io/kolookh/images/kolookh.png" alt="coin"> <!-- تصویر داخل سکه -->
-        </div>
+        </button>
     </div>
 
     <div class="version">نسخه 1.0</div> <!-- اضافه کردن نسخه به پایین -->
