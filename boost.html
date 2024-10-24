@@ -66,28 +66,38 @@
 <body>
     <button class="back-button" onclick="goBack()">برگشت</button> <!-- دکمه برگشت -->
     <div class="score">کلوخ‌های شما: <span id="score">0</span></div>
-    <button class="boost-button" onclick="buyBoost()">خرید بوست (300 کلوخ)</button>
+    <button class="boost-button" onclick="buyBoost()">خرید بوست (لول <span id="boostLevel">1</span>)</button>
     <div class="message" id="message"></div>
 
     <script>
         let score = 0;
+        let boostLevel = 1; // سطح بوست
+        const boostPrices = [300, 500, 800, 1200, 2000, 2500, 3300]; // قیمت‌های بوست
+        const clickValues = [2, 3, 4, 5, 6, 7, 8]; // مقدار کلیک‌های بوست
 
         window.onload = function() {
             if (localStorage.getItem("score")) {
                 score = parseInt(localStorage.getItem("score"));
                 document.getElementById("score").textContent = score;
             }
+            if (localStorage.getItem("boostLevel")) {
+                boostLevel = parseInt(localStorage.getItem("boostLevel"));
+                document.getElementById("boostLevel").textContent = boostLevel;
+            }
         }
 
         function buyBoost() {
-            if (score >= 300) {
-                score -= 300; // کسر سکه
+            const currentPrice = boostPrices[boostLevel - 1]; // قیمت فعلی
+            if (score >= currentPrice && boostLevel <= boostPrices.length) {
+                score -= currentPrice; // کسر سکه
                 localStorage.setItem("score", score);
                 document.getElementById("score").textContent = score;
-                alert("بوست فعال شد! هر کلیک به 2 کلوخ افزایش می‌یابد.");
-                localStorage.setItem("clickValue", 2); // به‌روزرسانی مقدار کلیک به 2
-                localStorage.setItem("boostActive", true); // بوست فعال می‌شود
-                window.history.back(); // بازگشت به صفحه اصلی
+                boostLevel++; // افزایش سطح
+                localStorage.setItem("boostLevel", boostLevel);
+                document.getElementById("boostLevel").textContent = boostLevel;
+                alert("بوست لول " + (boostLevel - 1) + " فعال شد! هر کلیک به " + clickValues[boostLevel - 2] + " کلوخ افزایش می‌یابد.");
+            } else if (boostLevel > boostPrices.length) {
+                document.getElementById("message").textContent = "شما به حداکثر سطح بوست رسیده‌اید!";
             } else {
                 document.getElementById("message").textContent = "شما به اندازه کافی کلوخ ندارید!";
             }
