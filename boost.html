@@ -88,6 +88,7 @@
 
         function buyBoost() {
             const currentPrice = boostPrices[boostLevel - 1]; // قیمت فعلی
+            const currentBoostLevel = boostLevel; // سطح فعلی بوست
             if (score >= currentPrice && boostLevel <= boostPrices.length) {
                 score -= currentPrice; // کسر سکه
                 localStorage.setItem("score", score); 
@@ -95,9 +96,9 @@
                 boostLevel++; 
                 document.getElementById("boostLevel").textContent = boostLevel; // به‌روزرسانی لول بوست
                 localStorage.setItem("boostLevel", boostLevel); // ذخیره لول بوست
-                document.getElementById("message").textContent = "بوست با موفقیت خریداری شد!"; 
+                document.getElementById("message").textContent = "بوست با موفقیت خریداری شد! سطح فعلی: " + currentBoostLevel + " قیمت: " + currentPrice;
             } else { 
-                document.getElementById("message").textContent = "سکه کافی نیست یا حداکثر سطح بوست رسیده‌اید!"; 
+                document.getElementById("message").textContent = "سکه کافی نیست یا حداکثر سطح بوست رسیده‌اید! قیمت: " + currentPrice; 
             } 
         }
 
@@ -107,4 +108,4 @@
     </script>
 
 </body>
-</html> 
+</html>
