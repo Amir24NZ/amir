@@ -62,20 +62,17 @@
             window.location.reload(); // بارگذاری مجدد صفحه
         }
 
-        document.querySelectorAll('link, script').forEach(function(tag) {
-            if (tag.href) {
-                tag.href += "?v=" + new Date().getTime(); // جلوگیری از کش شدن فایل‌ها
-            }
-        });
+        // بارگذاری مجدد صفحه با یک پارامتر تصادفی
+        window.onload = function() {
+            const uniqueParam = new Date().getTime(); // پارامتر تصادفی بر اساس زمان فعلی
+            const currentURL = window.location.href.split('?')[0]; // حذف پارامترهای موجود
+            window.location.href = `${currentURL}?v=${uniqueParam}`; // بارگذاری URL جدید
+        };
 
         let boostLevel = parseInt(localStorage.getItem("boostLevel")) || 1; // دریافت سطح بوست از Local Storage
         let score = parseInt(localStorage.getItem("score")) || 0; // دریافت امتیاز از Local Storage
 
         const boostPrices = [300, 500, 800, 1200, 2000, 2500, 3300]; // قیمت‌های بوست
-
-        window.onload = function() {
-            updateDisplay();
-        };
 
         function updateDisplay() {
             document.getElementById("score").textContent = "کلوخ‌های شما: " + score;
