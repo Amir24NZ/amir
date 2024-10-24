@@ -50,18 +50,61 @@
     </style>
     <script>
         // جلوگیری از کش شدن فایل‌های استاتیک
-        const version = "1.0"; // نسخه فعلی
-        const savedVersion = localStorage.getItem("appVersion"); // نسخه ذخیره شده در Local Storage
-        
-        // بررسی نسخه و به‌روزرسانی در صورت لزوم
-        if (savedVersion !== version) {
-            localStorage.setItem("appVersion", version); // ذخیره نسخه فعلی
-            localStorage.removeItem("score"); // حذف امتیاز ذخیره شده در صورت به‌روزرسانی
-            localStorage.removeItem("boostLevel"); // حذف سطح بوست در صورت به‌روزرسانی
-            alert("نسخه جدید بارگذاری شد!"); // اطلاع رسانی به کاربر
-            window.location.reload(); // بارگذاری مجدد صفحه
+        (function() {
+            let version = new Date().getTime();
+            document.querySelectorAll('link, script').forEach(function(tag) {
+                if (tag.href) {
+                    tag.href += "?v=" + version;
+                }
+                if (tag.src) {
+                    tag.src += "?v=" + version;
+                }
+            });
+        })();
+    </script>
+</head>
+<body>
+    <button class="back-button" onclick="goBack()">برگشت</button> <!-- دکمه برگشت -->
+    <div class="score">کلوخ‌های شما: <span id="score">0</span></div>
+    <button class="boost-button" onclick="buyBoost()">خرید بوست (لول <span id="boostLevel">1</span>)</button>
+    <div class="message" id="message"></div>
+
+    <script>
+        let score = 0;
+        let boostLevel = 1; // سطح بوست
+        const boostPrices = [300, 500, 800, 1200, 2000, 2500, 3300]; // قیمت‌های بوست
+        const clickValues = [2, 3, 4, 5, 6, 7, 8]; // مقدار کلیک‌های بوست
+
+        window.onload = function() {
+            if (localStorage.getItem("score")) {
+                score = parseInt(localStorage.getItem("score"));
+                document.getElementById("score").textContent = score;
+            }
+            if (localStorage.getItem("boostLevel")) {
+                boostLevel = parseInt(localStorage.getItem("boostLevel"));
+                document.getElementById("boostLevel").textContent = boostLevel;
+            }
         }
 
-        document.querySelectorAll('link, script').forEach(function(tag) {
-            if (tag.href) {
-                tag.href += "?v=" + new Date().getTime(); // جلوگیری از کش شدن
+        function buyBoost() {
+            const currentPrice = boostPrices[boostLevel - 1]; // قیمت فعلی
+            if (score >= currentPrice && boostLevel <= boostPrices.length) {
+                score -= currentPrice; // کسر سکه
+                localStorage.setItem("score", score); 
+                document.getElementById("score").textContent = score; 
+                boostLevel++; 
+                document.getElementById("boostLevel").textContent = boostLevel; // به‌روزرسانی لول بوست
+                localStorage.setItem("boostLevel", boostLevel); // ذخیره لول بوست
+                document.getElementById("message").textContent = "بوست با موفقیت خریداری شد!"; 
+            } else { 
+                document.getElementById("message").textContent = "سکه کافی نیست یا حداکثر سطح بوست رسیده‌اید!"; 
+            } 
+        }
+
+        function goBack() {
+            window.history.back(); // برگرداندن به صفحه قبلی
+        }
+    </script>
+
+</body>
+</html>
