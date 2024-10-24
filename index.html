@@ -36,10 +36,10 @@
             margin-top: 50px;
         }
         .coin {
-            width: 40vw; /* اندازه کوچکتر */
-            height: 40vw; /* اندازه کوچکتر */
-            max-width: 160px; /* حداکثر اندازه */
-            max-height: 160px; /* حداکثر اندازه */
+            width: 60vw; /* بزرگتر کردن دایره */
+            height: 60vw; /* بزرگتر کردن دایره */
+            max-width: 240px; /* حداکثر اندازه */
+            max-height: 240px; /* حداکثر اندازه */
             background-color: #800000;
             border-radius: 50%;
             cursor: pointer;
@@ -53,7 +53,7 @@
             -webkit-tap-highlight-color: transparent;
             border: none;
             padding: 0;
-            touch-action: manipulation; /* فعال‌سازی تعامل چند لمسی */
+            touch-action: manipulation;
         }
         .coin img {
             width: 100%;
@@ -67,6 +67,16 @@
             width: 100%;
             text-align: center;
             font-size: 14px;
+        }
+        .boost-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #FFD700; /* رنگ طلایی */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            color: black;
         }
 
         @media (max-width: 600px) {
@@ -88,10 +98,13 @@
         </button>
     </div>
 
+    <button class="boost-button" onclick="openBoostPage()">بوست</button> <!-- دکمه بوست -->
+
     <div class="version">نسخه 1.0</div>
 
     <script>
         let score = 0;
+        let clickValue = 1; // مقدار کلیک اولیه
 
         window.onload = function() {
             if (localStorage.getItem("score")) {
@@ -101,9 +114,13 @@
         }
 
         function increaseScore() {
-            score++;
+            score += clickValue; // امتیاز با توجه به مقدار کلیک افزایش می‌یابد
             document.getElementById("score").textContent = score;
             localStorage.setItem("score", score);
+        }
+
+        function openBoostPage() {
+            window.location.href = "boost.html"; // انتقال به صفحه بوست
         }
     </script>
 </body>
