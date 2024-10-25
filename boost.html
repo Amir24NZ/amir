@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوست</title>
+    <title>بوست کلوخ</title>
     <style>
         body {
-            background-color: #8B4513;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -14,98 +13,74 @@
             height: 100vh;
             margin: 0;
             font-family: sans-serif;
+            background-color: #8B4513; /* همرنگ با ایندکس */
             color: white;
             text-align: center;
         }
-        .score {
+        .boost-info {
             font-size: 24px;
             margin-bottom: 20px;
         }
+        .boost-level, .boost-price {
+            font-size: 20px;
+        }
         .boost-button {
             padding: 10px 20px;
-            background-color: #FFD700; /* رنگ طلایی */
+            background-color: #FFD700;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
             color: black;
-            margin-top: 20px; /* فاصله از دکمه برگشت */
+            margin-top: 20px;
         }
         .back-button {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            padding: 10px 15px;
-            background-color: #FF4500; /* رنگ نارنجی */
+            padding: 10px 20px;
+            background-color: #FF6347;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            color: white;
             font-size: 16px;
-        }
-        .message {
+            color: black;
             margin-top: 20px;
-            font-size: 16px;
         }
     </style>
-    <script>
-        // جلوگیری از کش شدن فایل‌های استاتیک
-        (function() {
-            let version = new Date().getTime();
-            document.querySelectorAll('link, script').forEach(function(tag) {
-                if (tag.href) {
-                    tag.href += "?v=" + version;
-                }
-                if (tag.src) {
-                    tag.src += "?v=" + version;
-                }
-            });
-        })();
-    </script>
 </head>
 <body>
-    <button class="back-button" onclick="goBack()">برگشت</button> <!-- دکمه برگشت -->
-    <div class="score">کلوخ‌های شما: <span id="score">0</span></div>
-    <button class="boost-button" onclick="buyBoost()">خرید بوست (لول <span id="boostLevel">1</span>)</button>
-    <div class="message" id="message"></div>
+    <div class="boost-info">سطح بوست شما: <span id="boostLevel">1</span></div>
+    <div class="boost-price">قیمت بوست بعدی: <span id="boostPrice">300</span> کلوخ</div>
+    <div class="boost-info">موجودی کلوخ شما: <span id="currentScore">0</span></div> <!-- اضافه کردن موجودی کلوخ -->
+
+    <button class="boost-button" onclick="buyBoost()">خرید بوست</button>
+    <button class="back-button" onclick="goBack()">بازگشت</button>
 
     <script>
-        let score = 0;
-        let boostLevel = 1; // سطح بوست
-        const boostPrices = [300, 500, 800, 1200, 2000, 2500, 3300]; // قیمت‌های بوست
-        const clickValues = [2, 3, 4, 5, 6, 7, 8]; // مقدار کلیک‌های بوست
+        let score = parseInt(localStorage.getItem("score")) || 0;
+        let boostLevel = parseInt(localStorage.getItem("boostLevel")) || 1;
+        const boostPrices = [300, 500, 800, 1200, 2000, 2500, 3300];
 
-        window.onload = function() {
-            if (localStorage.getItem("score")) {
-                score = parseInt(localStorage.getItem("score"));
-                document.getElementById("score").textContent = score;
-            }
-            if (localStorage.getItem("boostLevel")) {
-                boostLevel = parseInt(localStorage.getItem("boostLevel"));
-                document.getElementById("boostLevel").textContent = boostLevel;
-            }
-        }
+        document.getElementById("boostLevel").textContent = boostLevel;
+        document.getElementById("boostPrice").textContent = boostPrices[boostLevel - 1] || "پایان";
+        document.getElementById("currentScore").textContent = score; // نمایش موجودی کلوخ
 
         function buyBoost() {
-            const currentPrice = boostPrices[boostLevel - 1]; // قیمت فعلی
-            const currentBoostLevel = boostLevel; // سطح فعلی بوست
+            const currentPrice = boostPrices[boostLevel - 1];
             if (score >= currentPrice && boostLevel <= boostPrices.length) {
-                score -= currentPrice; // کسر سکه
-                localStorage.setItem("score", score); 
-                document.getElementById("score").textContent = score; 
-                boostLevel++; 
-                document.getElementById("boostLevel").textContent = boostLevel; // به‌روزرسانی لول بوست
-                localStorage.setItem("boostLevel", boostLevel); // ذخیره لول بوست
-                document.getElementById("message").textContent = "بوست با موفقیت خریداری شد! سطح فعلی: " + currentBoostLevel + " قیمت: " + currentPrice;
-            } else { 
-                document.getElementById("message").textContent = "سکه کافی نیست یا حداکثر سطح بوست رسیده‌اید! قیمت: " + currentPrice; 
-            } 
+                score -= currentPrice;
+                localStorage.setItem("score", score);
+                boostLevel++;
+                localStorage.setItem("boostLevel", boostLevel);
+                document.getElementById("boostLevel").textContent = boostLevel;
+                document.getElementById("boostPrice").textContent = boostPrices[boostLevel - 1] || "پایان";
+                document.getElementById("currentScore").textContent = score; // به‌روزرسانی موجودی کلوخ
+            } else {
+                alert("کلوخ کافی ندارید!");
+            }
         }
 
         function goBack() {
-            window.history.back(); // برگرداندن به صفحه قبلی
+            window.history.back();
         }
     </script>
-
 </body>
 </html>
