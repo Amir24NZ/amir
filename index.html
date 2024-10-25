@@ -18,10 +18,14 @@
             text-align: center;
             user-select: none;
         }
+        .league {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
         .score {
             font-size: 24px;
             position: absolute;
-            top: 10px;
+            top: 50px;
             width: 100%;
             text-align: center;
         }
@@ -49,7 +53,7 @@
             transition: transform 0.1s ease;
         }
         .coin img {
-            width: 70%; /* اندازه تصویر برای تطابق با دایره */
+            width: 70%;
             height: auto;
             border-radius: 50%;
         }
@@ -80,6 +84,12 @@
             margin-top: 20px;
             user-select: none;
         }
+        .message {
+            display: none;
+            margin-top: 20px;
+            font-size: 20px;
+            color: #FFD700;
+        }
         @media (max-width: 600px) {
             .score {
                 font-size: 6vw;
@@ -91,6 +101,7 @@
     </style>
 </head>
 <body>
+    <div class="league" id="league">لیگ: Unranked 😐</div>
     <div class="score">کلوخ‌های شما: <span id="score">0</span></div>
 
     <div class="coin-container">
@@ -101,19 +112,63 @@
 
     <button class="boost-button" onclick="window.location.href='boost.html'">بوست</button>
 
-    <div class="version">نسخه 1.0.1</div>
+    <div class="version">نسخه 1.0.2</div>
+    <div class="message" id="message"></div>
 
     <script>
         let score = parseInt(localStorage.getItem("score")) || 0;
         let boostLevel = parseInt(localStorage.getItem("boostLevel")) || 1;
         const clickValues = [1, 2, 3, 4, 5, 6, 7, 8];
+        let previousLeague = getLeague(score); // لیگ قبلی
 
         document.getElementById("score").textContent = score;
+
+        // تعیین لیگ بر اساس امتیاز
+        function getLeague(score) {
+            if (score < 1000) return "Unranked 😐";
+            else if (score < 5000) return "Bronze 🥉";
+            else if (score < 15000) return "Silver 🥈";
+            else if (score < 50000) return "Gold 🥇";
+            else if (score < 100000) return "Platinum 🔷️";
+            else if (score < 300000) return "Diamond 💎";
+            else if (score < 500000) return "Elite 🔻";
+            else if (score < 1000000) return "Champion 🔶️";
+            else return "Unreal ♾️";
+        }
+
+        // به‌روزرسانی لیگ در صفحه
+        function updateLeague() {
+            const currentLeague = getLeague(score);
+            document.getElementById("league").textContent = `لیگ: ${currentLeague}`;
+            checkLeagueChange(currentLeague);
+        }
+
+        // بررسی تغییر لیگ
+        function checkLeagueChange(currentLeague) {
+            if (currentLeague !== previousLeague) {
+                showCongratulatoryMessage(currentLeague);
+                previousLeague = currentLeague; // بروزرسانی لیگ قبلی
+            }
+        }
+
+        // نمایش پیام تبریک
+        function showCongratulatoryMessage(league) {
+            const messageDiv = document.getElementById("message");
+            messageDiv.textContent = `تبریک! شما به لیگ ${league} رسیدید!`;
+            messageDiv.style.display = 'block';
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 3000); // پیام به مدت 3 ثانیه نشان داده می‌شود
+        }
+
+        // به‌روزرسانی لیگ و امتیاز در شروع
+        updateLeague();
 
         function increaseScore() {
             score += clickValues[boostLevel - 1];
             document.getElementById("score").textContent = score;
             localStorage.setItem("score", score);
+            updateLeague();
         }
     </script>
 </body>
