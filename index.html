@@ -101,7 +101,7 @@
     </style>
 </head>
 <body>
-    <div class="league" id="league">لیگ: Unranked 😐</div>
+    <div class="league" id="league">لیگ: گدا 😐</div>
     <div class="score">کلوخ‌های شما: <span id="score">0</span></div>
 
     <div class="coin-container">
@@ -125,15 +125,15 @@
 
         // تعیین لیگ بر اساس امتیاز
         function getLeague(score) {
-            if (score < 1000) return "Unranked 😐";
-            else if (score < 5000) return "Bronze 🥉";
-            else if (score < 15000) return "Silver 🥈";
-            else if (score < 50000) return "Gold 🥇";
-            else if (score < 100000) return "Platinum 🔷️";
-            else if (score < 300000) return "Diamond 💎";
-            else if (score < 500000) return "Elite 🔻";
-            else if (score < 1000000) return "Champion 🔶️";
-            else return "Unreal ♾️";
+            if (score < 1000) return "گدا 😐";
+            else if (score < 5000) return "آقا 👨";
+            else if (score < 15000) return "کارگر 👷‍♂️";
+            else if (score < 50000) return "کشاورز 👨‍🌾";
+            else if (score < 100000) return "ورزشکار 🏃‍♂️";
+            else if (score < 300000) return "استاد 👨‍🏫";
+            else if (score < 500000) return "دکتر 👨‍⚕️";
+            else if (score < 1000000) return "مهندس 👨‍🔬";
+            else return "میلیونر 🤑";
         }
 
         // به‌روزرسانی لیگ در صفحه
