@@ -17,6 +17,7 @@
             color: white;
             text-align: center;
             position: relative;
+            overflow: hidden; /* جلوگیری از زوم */
         }
         .header {
             width: 100%;
@@ -49,8 +50,8 @@
             transform: translate(-50%, -50%);
         }
         .title-bar {
-            width: 90%;
-            max-width: 600px;
+            width: 100%; /* تغییر به 100% برای عرض کل صفحه */
+            max-width: 600px; /* برای عرض حداکثری */
             background-color: #A0522D;
             padding: 20px;
             border-radius: 10px;
@@ -60,6 +61,7 @@
             cursor: pointer;
             font-size: 24px;
             margin-top: 20px;
+            box-sizing: border-box; /* شامل padding در عرض */
         }
         .title-bar span {
             margin-right: 10px;
