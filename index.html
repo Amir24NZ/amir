@@ -95,15 +95,24 @@
             font-size: 14px;
         }
         .boost-button {
-            padding: 10px 20px;
-            background-color: #FFD700;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            color: black;
-            margin-top: 20px;
-            user-select: none;
+         width: 70px; /* عرض دکمه */
+          height: 70px; /* ارتفاع دکمه */
+         border-radius: 50%; /* گرد کردن دکمه */
+         display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #FFD700;
+        border: none;
+        cursor: pointer;
+        font-size: 24px; /* اندازه فونت ایموجی */
+        color: black;
+        margin-top: 20px;
+        user-select: none;
+        transition: background-color 0.3s;
+        }
+
+        .boost-button:hover {
+         background-color: #FFC107; /* تغییر رنگ در حالت هاور */
         }
         .message {
             display: none;
@@ -131,7 +140,9 @@
         </div>
     </div>
 
-    <button class="boost-button" onclick="window.location.href='boost.html'">بوست</button>
+    <button class="boost-button" onclick="window.location.href='boost.html'">
+        🚀
+    </button>
 
     <!-- Battery Bar -->
     <div class="battery-container">
@@ -140,7 +151,7 @@
         <span class="battery-value" id="battery-value">1000</span>
     </div>
 
-    <div class="version">نسخه 1.0.2</div>
+    <div class="version">نسخه 1.1.1</div>
     <div class="message" id="message"></div>
 
     <script>
