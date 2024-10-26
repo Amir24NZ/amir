@@ -17,7 +17,8 @@
             color: white;
             text-align: center;
             position: relative;
-            overflow: hidden; /* جلوگیری از زوم */
+            padding: 10px; /* Padding added for mobile */
+            box-sizing: border-box; /* Make sure padding is included in width */
         }
         .header {
             width: 100%;
@@ -43,15 +44,15 @@
             border: none;
         }
         .header-title {
-            font-size: 32px;
+            font-size: 24px; /* Reduced size for mobile */
             position: absolute;
             top: 40%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
         .title-bar {
-            width: 100%; /* تغییر به 100% برای عرض کل صفحه */
-            max-width: 600px; /* برای عرض حداکثری */
+            width: 100%; /* Full width for mobile */
+            max-width: 600px; /* Maximum width */
             background-color: #A0522D;
             padding: 20px;
             border-radius: 10px;
@@ -59,9 +60,8 @@
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            font-size: 24px;
+            font-size: 20px; /* Reduced size for mobile */
             margin-top: 20px;
-            box-sizing: border-box; /* شامل padding در عرض */
         }
         .title-bar span {
             margin-right: 10px;
@@ -82,29 +82,29 @@
             padding: 20px;
             border-radius: 10px;
             text-align: center;
-            width: 90%;
+            width: 90%; /* Responsive width */
             max-width: 400px;
         }
         .boost-info {
-            font-size: 18px;
+            font-size: 16px; /* Reduced size for mobile */
             margin-bottom: 15px;
         }
         .boost-button, .close-button {
-            width: 60px; /* عرض دکمه */
-            height: 60px; /* ارتفاع دکمه */
-            border-radius: 50%; /* شکل دایره */
-            border: none; /* حاشیه */
-            cursor: pointer; /* نشانگر دکمه */
-            font-size: 16px; /* اندازه فونت */
-            color: black; /* رنگ متن */
-            margin: 5px; /* فاصله */
+            width: 60px; /* Button width */
+            height: 60px; /* Button height */
+            border-radius: 50%; /* Circle shape */
+            border: none; /* Border */
+            cursor: pointer; /* Pointer cursor */
+            font-size: 16px; /* Font size */
+            color: black; /* Text color */
+            margin: 5px; /* Margin */
         }
         .boost-button {
-            background-color: #FFD700; /* رنگ دکمه خرید */
+            background-color: #FFD700; /* Buy button color */
         }
         .close-button {
-            background-color: #FF6347; /* رنگ دکمه بستن */
-            color: white; /* رنگ متن دکمه بستن */
+            background-color: #FF6347; /* Close button color */
+            color: white; /* Close button text color */
         }
     </style>
 </head>
