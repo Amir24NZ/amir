@@ -157,17 +157,24 @@
     <script>
         let score = parseInt(localStorage.getItem("score")) || 0;
         let boostLevel = parseInt(localStorage.getItem("boostLevel")) || 1;
+    
+        // Check if boostLevel is greater than 8 and reset it to 8 if it is
+        if (boostLevel > 8) {
+            boostLevel = 8;
+            localStorage.setItem("boostLevel", boostLevel);
+        }
+    
         const clickValues = [1, 2, 3, 4, 5, 6, 7, 8];
         let previousLeague = getLeague(score);
         const batteryMax = 1000;
         const refillRatePerSecond = batteryMax / 600;
-
+    
         // بازیابی سطح باتری و زمان آخرین به‌روزرسانی
         let batteryLevel = parseInt(localStorage.getItem("batteryLevel")) || batteryMax;
         let lastUpdateTime = parseInt(localStorage.getItem("lastUpdateTime")) || Date.now();
-
+    
         document.getElementById("score").textContent = score;
-
+    
         function getLeague(score) {
             if (score < 5000) return "😐 گدا";
             else if (score < 10000) return "👨 آقا";
@@ -180,20 +187,20 @@
             else if (score < 1000000) return "👨‍💻 مهندس";
             else return "👨‍🔬 دانشمند";
         }
-
+    
         function updateLeague() {
             const currentLeague = getLeague(score);
             document.getElementById("league").textContent = `لیگ: ${currentLeague}`;
             checkLeagueChange(currentLeague);
         }
-
+    
         function checkLeagueChange(currentLeague) {
             if (currentLeague !== previousLeague) {
                 showCongratulatoryMessage(currentLeague);
                 previousLeague = currentLeague;
             }
         }
-
+    
         function showCongratulatoryMessage(league) {
             const messageDiv = document.getElementById("message");
             messageDiv.textContent = `تبریک! شما به لیگ ${league} رسیدید!`;
@@ -202,9 +209,9 @@
                 messageDiv.style.display = 'none';
             }, 3000); 
         }
-
+    
         updateLeague();
-
+    
         // بروزرسانی سطح باتری با توجه به زمان آخرین به‌روزرسانی
         function calculateBatteryLevel() {
             const currentTime = Date.now();
@@ -215,24 +222,24 @@
             localStorage.setItem("lastUpdateTime", lastUpdateTime); // ذخیره زمان آخرین به‌روزرسانی
             updateBatteryDisplay();
         }
-
+    
         function updateBatteryDisplay() {
             document.getElementById("battery-bar").style.width = `${(batteryLevel / batteryMax) * 100}%`;
             document.getElementById("battery-value").textContent = Math.floor(batteryLevel);
         }
-
+    
         function refillBattery() {
             batteryLevel = Math.min(batteryLevel + refillRatePerSecond, batteryMax);
             localStorage.setItem("batteryLevel", batteryLevel); // ذخیره سطح باتری
             localStorage.setItem("lastUpdateTime", Date.now()); // به‌روزرسانی زمان آخرین بروز رسانی
             updateBatteryDisplay();
         }
-
+    
         // به محض باز شدن صفحه سطح باتری محاسبه می‌شود
         calculateBatteryLevel();
-
+    
         setInterval(refillBattery, 1000);
-
+    
         function increaseScore() {
             if (batteryLevel >= clickValues[boostLevel - 1]) {
                 score += clickValues[boostLevel - 1];
@@ -246,5 +253,7 @@
             }
         }
     </script>
+    
+    
 </body>
 </html>
