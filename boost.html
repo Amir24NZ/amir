@@ -156,8 +156,9 @@
                 localStorage.setItem("score", score);
                 boostLevel++;
                 localStorage.setItem("boostLevel", boostLevel);
+                localStorage.setItem("boostPrices", JSON.stringify(boostPrices));
                 document.getElementById("boostLevel").textContent = boostLevel;
-                document.getElementById("boostPrice").textContent = boostPrices[boostLevel - 1] || "پایان";
+                document.getElementById("boostPrice").textContent = boostPrices[boostLevel - 1];
                 alert("بوست خریداری شد!");
             } else {
                 alert("کلوخ کافی ندارید!");
