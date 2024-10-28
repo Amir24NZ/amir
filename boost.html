@@ -136,30 +136,29 @@
     <script>
         let score = parseInt(localStorage.getItem("score")) || 0;
         let boostLevel = parseInt(localStorage.getItem("boostLevel")) || 1;
+    
+        // Check if boostLevel is greater than 8 and reset it to 8 if it is
+        if (boostLevel > 8) {
+            boostLevel = 8;
+            localStorage.setItem("boostLevel", boostLevel);
+        }
+    
         const boostPrices = [1000, 2000, 3000, 5000, 7000, 10000, 15000, 20000];
-
+    
         document.getElementById("boostLevel").textContent = boostLevel;
         document.getElementById("boostPrice").textContent = boostPrices[boostLevel - 1] || "پایان";
-
+    
         function openModal() {
             document.getElementById("boostModal").style.display = "flex";
         }
-
+    
         function closeModal() {
             document.getElementById("boostModal").style.display = "none";
         }
-
+    
         function buyBoost() {
-            // Check if the boost level has reached the maximum (8)
-            if (boostLevel >= 8) {
-                alert("شما به حداکثر سطح بوست رسیده‌اید!");
-                closeModal();
-                return;
-            }
-
             const currentPrice = boostPrices[boostLevel - 1];
-            
-            if (score >= currentPrice) {
+            if (score >= currentPrice && boostLevel <= boostPrices.length) {
                 score -= currentPrice;
                 localStorage.setItem("score", score);
                 boostLevel++;
@@ -172,11 +171,12 @@
             }
             closeModal();
         }
-
+    
         function goBack() {
-            window.location.href = "index.html";
+            window.location.href = "index.html"; // لینک صفحه اصلی
         }
     </script>
+    
 
 </body>
 </html>
