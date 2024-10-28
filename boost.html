@@ -136,7 +136,7 @@
     <script>
         let score = parseInt(localStorage.getItem("score")) || 0;
         let boostLevel = parseInt(localStorage.getItem("boostLevel")) || 1;
-        const boostPrices = [500, 1000, 1500, 2000, 3000, 5000, 8000, 10000, 15000, 20000, 30000, 50000];
+        const boostPrices = [1000, 2000, 3000, 5000, 7000, 10000, 15000, 20000];
 
         document.getElementById("boostLevel").textContent = boostLevel;
         document.getElementById("boostPrice").textContent = boostPrices[boostLevel - 1] || "پایان";
@@ -156,9 +156,8 @@
                 localStorage.setItem("score", score);
                 boostLevel++;
                 localStorage.setItem("boostLevel", boostLevel);
-                localStorage.setItem("boostPrices", JSON.stringify(boostPrices));
                 document.getElementById("boostLevel").textContent = boostLevel;
-                document.getElementById("boostPrice").textContent = boostPrices[boostLevel - 1];
+                document.getElementById("boostPrice").textContent = boostPrices[boostLevel - 1] || "پایان";
                 alert("بوست خریداری شد!");
             } else {
                 alert("کلوخ کافی ندارید!");
