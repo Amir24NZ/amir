@@ -6,6 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>کلوخ کوین</title>
     <style>
+    @keyframes floatUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-40px);
+    }
+}
+
+.float-score {
+    position: absolute;
+    font-size: 20px;
+    font-weight: bold;
+    color: #FFD700;
+    animation: floatUp 1s ease forwards;
+    pointer-events: none;
+}
         body {
             background-color: #8B4513;
             display: flex;
@@ -117,7 +136,7 @@
     <div class="score">کلوخ‌های شما: <span id="score">0</span></div>
 
     <div class="coin-container">
-        <div class="coin" onclick="increaseScore()" aria-label="کلیک کنید تا امتیاز بگیرید">
+        <div class="coin" id="coin" aria-label="کلیک کنید تا امتیاز بگیرید">
             <img src="https://amir24nz.github.io/kolookh/images/kolookh.png" alt="coin">
         </div>
     </div>
@@ -134,6 +153,35 @@
     <div class="message" id="message"></div>
 
     <script>
+      
+      document.getElementById("coin").addEventListener("touchstart", function(event) {
+    event.preventDefault();
+
+    // مرکز سکه را پیدا می‌کنیم
+    const coinRect = this.getBoundingClientRect();
+    const centerX = coinRect.left + coinRect.width / 2;
+    const centerY = coinRect.top + coinRect.height / 2;
+
+    for (let i = 0; i < event.touches.length; i++) {
+        const touch = event.touches[i];
+        const deltaX = touch.clientX - centerX;
+        const deltaY = touch.clientY - centerY;
+
+        // تنظیم زاویه چرخش با توجه به موقعیت لمس
+        const rotationX = deltaY / 10; // تنظیم دلخواه زاویه عمودی
+        const rotationY = -deltaX / 10; // تنظیم دلخواه زاویه افقی
+
+        this.style.transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
+
+        // فراخوانی افزایش امتیاز
+        increaseScore();
+    }
+
+    // بازگرداندن سکه به حالت اولیه بعد از مدت کوتاهی
+    setTimeout(() => {
+        this.style.transform = "rotateX(0) rotateY(0)";
+    }, 100);
+});
         let score = parseInt(localStorage.getItem("score")) || 0;
         let boostLevel = Math.min(parseInt(localStorage.getItem("boostLevel")) || 1, 8);
         const clickValues = [1, 2, 3, 4, 5, 6, 7, 8];
@@ -212,6 +260,14 @@
                 updateLeague();
             }
         }
+
+        // Enable multi-touch functionality
+        document.getElementById("coin").addEventListener("touchstart", function(event) {
+            event.preventDefault();
+            for (let i = 0; i < event.touches.length; i++) {
+                increaseScore();
+            }
+        });
 
         updateLeague();
     </script>
