@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
+    <link href="https://fonts.googleapis.com/css2?family=Lalezar&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بازی کلوخ</title>
+    <title>کلوخ کوین</title>
     <style>
-        /* Styles */
         body {
             background-color: #8B4513;
             display: flex;
@@ -14,17 +14,15 @@
             flex-direction: column;
             height: 100vh;
             margin: 0;
-            font-family: sans-serif;
+            font-family: 'Lalezar', sans-serif;
             color: white;
             text-align: center;
             user-select: none;
         }
-        .league {
+        .league, .score {
             font-size: 24px;
-            margin-bottom: 10px;
         }
         .score {
-            font-size: 24px;
             position: absolute;
             top: 50px;
             width: 100%;
@@ -43,30 +41,25 @@
             background-color: #800000;
             border-radius: 50%;
             cursor: pointer;
-            margin-bottom: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 0 auto 20px;
             outline: none;
             -webkit-tap-highlight-color: transparent;
             transition: transform 0.1s ease;
         }
         .coin img {
             width: 70%;
-            height: auto;
             border-radius: 50%;
         }
         .coin:active {
             transform: scale(0.95);
-            animation: shake 0.2s ease;
         }
         .battery-container {
             width: 80%;
             background-color: #555;
             border-radius: 5px;
-            overflow: hidden;
             margin-top: 20px;
             height: 20px;
             display: flex;
@@ -80,13 +73,6 @@
             height: 100%;
             transition: width 0.1s;
         }
-        .battery-emoji {
-            margin-right: 5px;
-        }
-        .battery-value {
-            font-size: 14px;
-            margin-left: 5px;
-        }
         .version {
             position: absolute;
             bottom: 10px;
@@ -95,20 +81,20 @@
             font-size: 14px;
         }
         .boost-button {
-         width: 70px; /* عرض دکمه */
-          height: 70px; /* ارتفاع دکمه */
-         border-radius: 50%; /* گرد کردن دکمه */
-         display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: #FFD700;
-        border: none;
-        cursor: pointer;
-        font-size: 24px; /* اندازه فونت ایموجی */
-        color: black;
-        margin-top: 20px;
-        user-select: none;
-        transition: background-color 0.3s;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #FFD700;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: black;
+            margin-top: 20px;
+            user-select: none;
+            transition: background-color 0.3s;
         }
         .message {
             display: none;
@@ -136,11 +122,8 @@
         </div>
     </div>
 
-    <button class="boost-button" onclick="window.location.href='boost.html'">
-        🚀
-    </button>
+    <button class="boost-button" onclick="window.location.href='boost.html'">🚀</button>
 
-    <!-- Battery Bar -->
     <div class="battery-container">
         <span class="battery-emoji">🔋</span>
         <div class="battery" id="battery-bar"></div>
@@ -152,25 +135,17 @@
 
     <script>
         let score = parseInt(localStorage.getItem("score")) || 0;
-        let boostLevel = parseInt(localStorage.getItem("boostLevel")) || 1;
-    
-        // Check if boostLevel is greater than 8 and reset it to 8 if it is
-        if (boostLevel > 8) {
-            boostLevel = 8;
-            localStorage.setItem("boostLevel", boostLevel);
-        }
-    
+        let boostLevel = Math.min(parseInt(localStorage.getItem("boostLevel")) || 1, 8);
         const clickValues = [1, 2, 3, 4, 5, 6, 7, 8];
         let previousLeague = getLeague(score);
         const batteryMax = 1000;
         const refillRatePerSecond = batteryMax / 600;
-    
-        // بازیابی سطح باتری و زمان آخرین به‌روزرسانی
+
         let batteryLevel = parseInt(localStorage.getItem("batteryLevel")) || batteryMax;
         let lastUpdateTime = parseInt(localStorage.getItem("lastUpdateTime")) || Date.now();
-    
+
         document.getElementById("score").textContent = score;
-    
+
         function getLeague(score) {
             if (score < 5000) return "😐 گدا";
             else if (score < 10000) return "👨 آقا";
@@ -181,75 +156,64 @@
             else if (score < 100000) return "🤵‍♂️ رییس";
             else if (score < 500000) return "👨‍⚕️ دکتر";
             else if (score < 1000000) return "👨‍💻 مهندس";
-            else return "👨‍🔬 دانشمند";
+            return "👨‍🔬 دانشمند";
         }
-    
+
         function updateLeague() {
             const currentLeague = getLeague(score);
             document.getElementById("league").textContent = `لیگ: ${currentLeague}`;
-            checkLeagueChange(currentLeague);
-        }
-    
-        function checkLeagueChange(currentLeague) {
             if (currentLeague !== previousLeague) {
                 showCongratulatoryMessage(currentLeague);
                 previousLeague = currentLeague;
             }
         }
-    
+
         function showCongratulatoryMessage(league) {
             const messageDiv = document.getElementById("message");
             messageDiv.textContent = `تبریک! شما به لیگ ${league} رسیدید!`;
             messageDiv.style.display = 'block';
-            setTimeout(() => {
-                messageDiv.style.display = 'none';
-            }, 3000); 
+            setTimeout(() => messageDiv.style.display = 'none', 3000);
         }
-    
-        updateLeague();
-    
-        // بروزرسانی سطح باتری با توجه به زمان آخرین به‌روزرسانی
+
         function calculateBatteryLevel() {
             const currentTime = Date.now();
-            const timeElapsed = (currentTime - lastUpdateTime) / 1000; // زمان سپری‌شده برحسب ثانیه
+            const timeElapsed = (currentTime - lastUpdateTime) / 1000;
             batteryLevel = Math.min(batteryLevel + timeElapsed * refillRatePerSecond, batteryMax);
             lastUpdateTime = currentTime;
-            localStorage.setItem("batteryLevel", batteryLevel); // ذخیره سطح باتری
-            localStorage.setItem("lastUpdateTime", lastUpdateTime); // ذخیره زمان آخرین به‌روزرسانی
+            localStorage.setItem("batteryLevel", batteryLevel);
+            localStorage.setItem("lastUpdateTime", lastUpdateTime);
             updateBatteryDisplay();
         }
-    
+
         function updateBatteryDisplay() {
             document.getElementById("battery-bar").style.width = `${(batteryLevel / batteryMax) * 100}%`;
             document.getElementById("battery-value").textContent = Math.floor(batteryLevel);
         }
-    
+
         function refillBattery() {
             batteryLevel = Math.min(batteryLevel + refillRatePerSecond, batteryMax);
-            localStorage.setItem("batteryLevel", batteryLevel); // ذخیره سطح باتری
-            localStorage.setItem("lastUpdateTime", Date.now()); // به‌روزرسانی زمان آخرین بروز رسانی
+            localStorage.setItem("batteryLevel", batteryLevel);
+            localStorage.setItem("lastUpdateTime", Date.now());
             updateBatteryDisplay();
         }
-    
-        // به محض باز شدن صفحه سطح باتری محاسبه می‌شود
+
         calculateBatteryLevel();
-    
         setInterval(refillBattery, 1000);
-    
+
         function increaseScore() {
             if (batteryLevel >= clickValues[boostLevel - 1]) {
                 score += clickValues[boostLevel - 1];
                 batteryLevel -= clickValues[boostLevel - 1];
                 document.getElementById("score").textContent = score;
                 localStorage.setItem("score", score);
-                localStorage.setItem("batteryLevel", batteryLevel); // ذخیره سطح باتری پس از کاهش
-                localStorage.setItem("lastUpdateTime", Date.now()); // ذخیره زمان بروزرسانی
+                localStorage.setItem("batteryLevel", batteryLevel);
+                localStorage.setItem("lastUpdateTime", Date.now());
                 updateBatteryDisplay();
                 updateLeague();
             }
         }
+
+        updateLeague();
     </script>
-    
-    
 </body>
 </html>
