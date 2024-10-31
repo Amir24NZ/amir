@@ -79,8 +79,7 @@
 </head>
 <body>
     <button class="back-button" onclick="goBack()">❌</button>
-    <div class="title-bar" onclick="openModal()">🚀 بوست کلیک</div>
-    <div class="title-bar" onclick="openBatteryModal()">🔋 بوست باتری</div> <!-- دکمه جدید -->
+    <div class="title-bar" onclick="openModal()">🚀 کلوخ بوست</div>
 
     <!-- Modal for Boost Details -->
     <div class="modal" id="boostModal">
@@ -92,22 +91,10 @@
         </div>
     </div>
 
-    <!-- Modal for Battery Boost -->
-    <div class="modal" id="batteryModal">
-        <div class="modal-content">
-            <div>سطح بوست باتری: <span id="batteryLevel">1</span></div>
-            <div>قیمت بوست باتری بعدی: <span id="batteryPrice">1500</span> کلوخ</div>
-            <button class="boost-button" onclick="buyBatteryBoost()">💰</button>
-            <button class="close-button" onclick="closeBatteryModal()">❌</button>
-        </div>
-    </div>
-
     <script>
         let score = +localStorage.getItem("score") || 0;
         let boostLevel = +localStorage.getItem("boostLevel") || 1;
-        let batteryLevel = +localStorage.getItem("batteryLevel") || 1;
         const boostPrices = [1000, 2000, 3000, 5000, 7000, 10000, 15000];
-        const batteryPrices = [1500, 3000, 4500, 6000, 8000, 10000, 12000]; // قیمت‌های باتری
 
         function updateBoostInfo() {
             document.getElementById("boostLevel").textContent = boostLevel;
@@ -135,34 +122,6 @@
                 alert("کلوخ کافی ندارید!");
             }
             closeModal();
-        }
-
-        function openBatteryModal() {
-            document.getElementById("batteryModal").style.display = "flex";
-            updateBatteryInfo();
-        }
-
-        function closeBatteryModal() {
-            document.getElementById("batteryModal").style.display = "none";
-        }
-
-        function updateBatteryInfo() {
-            document.getElementById("batteryLevel").textContent = batteryLevel;
-            document.getElementById("batteryPrice").textContent = batteryPrices[batteryLevel - 1] || "پایان";
-        }
-
-        function buyBatteryBoost() {
-            const currentPrice = batteryPrices[batteryLevel - 1];
-            if (score >= currentPrice && batteryLevel <= batteryPrices.length) {
-                score -= currentPrice;
-                localStorage.setItem("score", score);
-                localStorage.setItem("batteryLevel", ++batteryLevel);
-                alert("بوست باتری خریداری شد!");
-                updateBatteryInfo();
-            } else {
-                alert("کلوخ کافی ندارید!");
-            }
-            closeBatteryModal();
         }
 
         function goBack() {
