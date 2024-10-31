@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>وظایف کلوخ</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #8B4513; /* رنگ پس‌زمینه */
+            position: relative; /* برای موقعیت‌دهی دکمه */
+        }
+        .back-button {
+            position: absolute; /* تغییر موقعیت */
+            top: 10px; /* فاصله از بالا */
+            left: 10px; /* فاصله از چپ */
+            width: 40px;
+            height: 40px;
+            background-color: #ff6347;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 20px;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="goBack()">❌</button>
+
+    <script>
+        function goBack() {
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>
