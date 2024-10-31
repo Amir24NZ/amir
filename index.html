@@ -216,7 +216,7 @@
         let batteryMax = 1000 * boostLevel; // مقدار باتری به ازای سطح بوست
         const clickValues = [1, 2, 3, 4, 5, 6, 7, 8];
         let previousLeague = getLeague(score);
-        const refillRatePerSecond = batteryMax / 524;
+        const refillRatePerSecond = batteryMax / 6000;
 
         let batteryLevel = parseInt(localStorage.getItem("batteryLevel")) || batteryMax;
         let lastUpdateTime = parseInt(localStorage.getItem("lastUpdateTime")) || Date.now();
