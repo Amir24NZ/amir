@@ -1,44 +1,30 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
+    <link href="https://fonts.googleapis.com/css2?family=Lalezar&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>وظایف کلوخ</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #8B4513; /* رنگ پس‌زمینه */
-            position: relative; /* برای موقعیت‌دهی دکمه */
-        }
-        .back-button {
-            position: absolute; /* تغییر موقعیت */
-            top: 10px; /* فاصله از بالا */
-            left: 10px; /* فاصله از چپ */
-            width: 40px;
-            height: 40px;
-            background-color: #ff6347;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 20px;
-            border: none;
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" href="task.css">
 </head>
 <body>
     <button class="back-button" onclick="goBack()">❌</button>
+    <div class="button-container">
+        <button class="task-button" onclick="handleChannelJoin()">عضویت در کانال</button>
+        <button id="checkJoinButton" class="task-button" onclick="checkChannelJoin()" style="display: none;">بررسی عضویت</button>
+        <button class="task-button" onclick="enterCode()">وارد کردن کد</button>
+    </div>
+    <div id="message" class="message"></div>
 
-    <script>
-        function goBack() {
-            window.location.href = "index.html";
-        }
-    </script>
+    <!-- مادل برای عضویت در کانال -->
+    <div id="channelModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <p>برای دریافت امتیاز باید در کانال تلگرام عضو شوید.</p>
+            <button onclick="openChannelLink()" class="task-button">عضویت در کانال تلگرام</button>
+        </div>
+    </div>
+
+    <script src="task.js"></script>
 </body>
 </html>

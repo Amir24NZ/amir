@@ -1,0 +1,147 @@
+@keyframes floatUp {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-40px); }
+}
+
+body {
+    background-image: url('https://amir24nz.github.io/kolookh/images/background.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Lalezar', sans-serif;
+    color: white;
+    text-align: center;
+    user-select: none;
+}
+
+.league, .score {
+    font-size: 24px;
+}
+
+.score {
+    position: absolute;
+    top: 50px;
+    width: 100%;
+    text-align: center;
+}
+
+.coin-container {
+    max-width: 400px;
+    margin-top: 20px;
+}
+
+.coin {
+    width: 70vw;
+    height: 70vw;
+    max-width: 500px;
+    max-height: 500px;
+    background-image: url('https://amir24nz.github.io/kolookh/images/coin.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin: 0 auto 20px;
+    transition: transform 0.1s ease;
+}
+
+.coin img {
+    width: 70%; /* تنظیم اندازه تصویر جدید */
+    height: auto;
+}
+
+.coin:active {
+    transform: scale(0.95);
+}
+
+.battery-container {
+    width: 80%;
+    background-color: #555;
+    border-radius: 5px;
+    margin-top: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5px;
+    color: white;
+}
+
+.battery-rectangle {
+    position: absolute;
+    bottom: 85px;
+    right: 33px;
+    background-color: #555;
+    width: 120px;
+    height: 25px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.battery {
+    background-color: #FFD700;
+    height: 100%;
+    transition: width 0.1s;
+}
+
+.version {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+}
+
+.boost-button {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFD700;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: black;
+    margin-top: 20px;
+    user-select: none;
+    transition: background-color 0.3s;
+}
+
+.button-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.float-score {
+    position: absolute;
+    font-size: 20px;
+    font-weight: bold;
+    color: #FFD700;
+    animation: floatUp 1s ease forwards;
+    pointer-events: none;
+}
+
+.message {
+    display: none;
+    margin-top: 20px;
+    font-size: 20px;
+    color: #FFD700;
+}
+
+@media (max-width: 600px) {
+    .score { font-size: 6vw; }
+    .version { font-size: 3.5vw; }
+}

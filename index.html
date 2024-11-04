@@ -4,165 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link href="https://fonts.googleapis.com/css2?family=Lalezar&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <title>کلوخ کوین</title>
-    <style>
-        @keyframes floatUp {
-            from { opacity: 1; transform: translateY(0); }
-            to { opacity: 0; transform: translateY(-40px); }
-        }
-
-        body {
-            background-color: #8B4513;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            height: 100vh;
-            margin: 0;
-            font-family: 'Lalezar', sans-serif;
-            color: white;
-            text-align: center;
-            user-select: none;
-        }
-
-        .league, .score {
-            font-size: 24px;
-        }
-
-        .score {
-            position: absolute;
-            top: 50px;
-            width: 100%;
-            text-align: center;
-        }
-
-        .coin-container {
-            max-width: 400px;
-            margin-top: 20px;
-        }
-
-        .coin {
-            width: 70vw;
-            height: 70vw;
-            max-width: 240px;
-            max-height: 240px;
-            background-color: #800000;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 auto 20px;
-            transition: transform 0.1s ease;
-        }
-
-        .coin img {
-            width: 70%;
-            border-radius: 50%;
-        }
-
-        .coin:active {
-            transform: scale(0.95);
-        }
-
-        .battery-container {
-            width: 80%;
-            background-color: #555;
-            border-radius: 5px;
-            margin-top: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 5px;
-            color: white;
-        }
-        .battery-rectangle {
-    position: absolute;
-    bottom: 85px; /* فاصله از پایین */
-    right: 33px; /* فاصله از سمت راست */
-    background-color: #555; /* هم‌رنگ نوار باتری */
-    width: 120px; /* عرض مستطیل */
-    height: 25px; /* ارتفاع مستطیل */
-    border-radius: 5px; /* گرد کردن گوشه‌ها */
-    display: flex; /* برای چینش افقی */
-    align-items: center; /* برای مرکز کردن عمودی محتوا */
-    justify-content: center; /* برای مرکز کردن افقی محتوا */
-}
-
-
-
-
-
-
-        .battery {
-            background-color: #FFD700;
-            height: 100%;
-            transition: width 0.1s;
-        }
-
-        .version {
-            position: absolute;
-            bottom: 10px;
-            width: 100%;
-            text-align: center;
-            font-size: 14px;
-        }
-
-        .boost-button {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #FFD700;
-            border: none;
-            cursor: pointer;
-            font-size: 24px;
-            color: black;
-            margin-top: 20px;
-            user-select: none;
-            transition: background-color 0.3s;
-        }
-
-        .button-container {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
-
-        .float-score {
-            position: absolute;
-            font-size: 20px;
-            font-weight: bold;
-            color: #FFD700;
-            animation: floatUp 1s ease forwards;
-            pointer-events: none;
-        }
-
-        .message {
-            display: none;
-            margin-top: 20px;
-            font-size: 20px;
-            color: #FFD700;
-        }
-
-        @media (max-width: 600px) {
-            .score { font-size: 6vw; }
-            .version { font-size: 3.5vw; }
-        }
-    </style>
 </head>
 <body>
 
     <div class="battery-rectangle" id="battery-rectangle"></div>
     <div class="league" id="league">لیگ: گدا 😐</div>
-    <div class="score">کلوخ‌های شما: <span id="score">0</span></div>
+    <div class="score"><span id="score">0</span> :کلوخ‌های شما</div> <!-- جابجایی متن و عدد امتیاز -->
 
     <div class="coin-container">
         <div class="coin" id="coin" aria-label="کلیک کنید تا امتیاز بگیرید">
             <img src="https://amir24nz.github.io/kolookh/images/kolookh.png" alt="coin">
+
         </div>
     </div>
 
@@ -172,132 +26,17 @@
     </div>
 
     <div class="battery-container">
-       
         <div class="battery" id="battery-bar"></div>
-        
     </div>
 
     <div class="battery-rectangle" id="battery-rectangle">
         <span class="battery-emoji">🔋</span>
         <span class="battery-value" id="battery-value">1000</span>
     </div>
-    
 
-    <div class="version">نسخه 1.2</div>
+    <div class="version">نسخه 1.5</div>
     <div class="message" id="message"></div>
 
-    <script>
-        const scoreElement = document.getElementById("score");
-        const batteryBar = document.getElementById("battery-bar");
-        const batteryValue = document.getElementById("battery-value");
-        const messageDiv = document.getElementById("message");
-        const coin = document.getElementById("coin");
-
-        document.getElementById("coin").addEventListener("touchstart", function(event) {
-            event.preventDefault();
-            const coinRect = this.getBoundingClientRect();
-            const centerX = coinRect.left + coinRect.width / 2;
-            const centerY = coinRect.top + coinRect.height / 2;
-
-            for (let touch of event.touches) {
-                const deltaX = touch.clientX - centerX;
-                const deltaY = touch.clientY - centerY;
-                this.style.transform = `rotateX(${deltaY / 10}deg) rotateY(${-deltaX / 10}deg)`;
-                increaseScore(touch.clientX, touch.clientY);
-            }
-
-            setTimeout(() => {
-                this.style.transform = "rotateX(0) rotateY(0)";
-            }, 100);
-        });
-
-        let score = parseInt(localStorage.getItem("score")) || 0;
-        let boostLevel = Math.min(parseInt(localStorage.getItem("boostLevel")) || 1, 8);
-        let batteryMax = 1000 * boostLevel; // مقدار باتری به ازای سطح بوست
-        const clickValues = [1, 2, 3, 4, 5, 6, 7, 8];
-        let previousLeague = getLeague(score);
-        const refillRatePerSecond = batteryMax / 900;
-
-        let batteryLevel = parseInt(localStorage.getItem("batteryLevel")) || batteryMax;
-        let lastUpdateTime = parseInt(localStorage.getItem("lastUpdateTime")) || Date.now();
-
-        scoreElement.textContent = score;
-
-        function getLeague(score) {
-            if (score < 5000) return "😐 گدا";
-            else if (score < 10000) return "👨 آقا";
-            else if (score < 20000) return "👷‍♂️ کارگر";
-            else if (score < 30000) return "👨‍🌾 کشاورز";
-            else if (score < 50000) return "🏃‍♂️ ورزشکار";
-            else if (score < 80000) return "👨‍🏫 استاد";
-            else if (score < 100000) return "🤵‍♂️ رییس";
-            else if (score < 500000) return "👨‍⚕️ دکتر";
-            else if (score < 1000000) return "👨‍💻 مهندس";
-            return "👨‍🔬 دانشمند";
-        }
-
-        function updateLeague() {
-            const currentLeague = getLeague(score);
-            document.getElementById("league").textContent = `لیگ: ${currentLeague}`;
-            if (currentLeague !== previousLeague) {
-                showCongratulatoryMessage(currentLeague);
-                previousLeague = currentLeague;
-            }
-        }
-
-        function showCongratulatoryMessage(league) {
-            messageDiv.textContent = `تبریک! شما به لیگ ${league} ارتقا پیدا کردید!`;
-            messageDiv.style.display = "block";
-            setTimeout(() => {
-                messageDiv.style.display = "none";
-            }, 3000);
-        }
-
-        function calculateBatteryLevel() {
-    const currentTime = Date.now();
-    const timeElapsed = (currentTime - lastUpdateTime) / 1000;
-    batteryLevel = Math.min(batteryLevel + timeElapsed * refillRatePerSecond, batteryMax);
-    lastUpdateTime = currentTime;
-
-    localStorage.setItem("batteryLevel", batteryLevel);
-    localStorage.setItem("lastUpdateTime", lastUpdateTime);
-    batteryBar.style.width = `${(batteryLevel / batteryMax) * 100}%`;
-
-
-    // به‌روزرسانی مقدار باتری به صورت 'موجودی / حداکثر ظرفیت'
-    batteryValue.textContent = `${Math.round(batteryLevel)} / ${batteryMax}`;
-}
-        function increaseScore(x, y) {
-    if (batteryLevel >= 10) { // بررسی سطح باتری
-        const value = clickValues[boostLevel - 1];
-        score += value;
-        localStorage.setItem("score", score);
-        scoreElement.textContent = score;
-        showFloatingScore(value, x, y);
-        updateLeague();
-        batteryLevel = Math.max(batteryLevel - 10, 0); // باتری کاهش می‌یابد
-        localStorage.setItem("batteryLevel", batteryLevel);
-        batteryBar.style.width = `${(batteryLevel / batteryMax) * 100}%`;
-        batteryValue.textContent = Math.round(batteryLevel);
-    } 
-    // اگر باتری کافی نباشد، هیچ کار دیگری انجام نمی‌دهیم
-}
-
-
-        function showFloatingScore(value, x, y) {
-            const floatScore = document.createElement("div");
-            floatScore.className = "float-score";
-            floatScore.textContent = `+${value}`;
-            floatScore.style.left = `${x}px`;
-            floatScore.style.top = `${y}px`;
-            document.body.appendChild(floatScore);
-            setTimeout(() => {
-                floatScore.remove();
-            }, 1000);
-        }
-
-        setInterval(calculateBatteryLevel, 1000);
-        updateLeague();
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
