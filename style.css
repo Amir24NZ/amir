@@ -103,26 +103,19 @@ body {
 }
 
 .boost-button {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #FFD700;
-    border: none;
+    width: 70px; /* اندازه را طبق نیاز تغییر بده */
+    height: 70px; /* اندازه را طبق نیاز تغییر بده */
+    background-image: url('https://amir24nz.github.io/kolookh/images/ybutton.png');
+    background-size: cover; /* تصویر را به طور کامل در دکمه نشان می‌دهد */
+    background-position: center; /* تصویر در مرکز دکمه قرار می‌گیرد */
+    border: none; /* حاشیه را حذف کن */
+    background-color: transparent; /* پس‌زمینه دکمه را شفاف کن */
     cursor: pointer;
-    font-size: 24px;
-    color: black;
-    margin-top: 20px;
-    user-select: none;
-    transition: background-color 0.3s;
+    transition: transform 0.3s;
 }
 
 .button-container {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
+    transform: scale(1.1); /* کمی بزرگ‌تر می‌شود وقتی روی آن می‌روی */
 }
 
 .float-score {
@@ -145,3 +138,12 @@ body {
     .score { font-size: 6vw; }
     .version { font-size: 3.5vw; }
 }
+
+.league, .score, .float-score, .message, .version {
+    text-shadow: 
+        -1px -1px 0 #000, /* سایه در بالا سمت چپ */
+         1px -1px 0 #000, /* سایه در بالا سمت راست */
+        -1px  1px 0 #000, /* سایه در پایین سمت چپ */
+         1px  1px 0 #000; /* سایه در پایین سمت راست */
+}
+
